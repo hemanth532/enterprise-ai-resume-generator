@@ -8,15 +8,21 @@ SESSION_LOG_FILES: dict[str, Path] = {}
 
 
 def _ensure_log_dir(session_id: str) -> Path:
-    path = LOG_ROOT / session_id
-    path.mkdir(parents=True, exist_ok=True)
-    return path
+    # Ensure the root logs directory exists; do not create per-session subfolders.
+    LOG_ROOT.mkdir(parents=True, exist_ok=True)
+    return LOG_ROOT
 
 
 def _build_session_log_path(session_id: str) -> Path:
+    def _sanitize_session_id(sid: str) -> str:
+        # Keep only alnum, dash and underscore; replace others with underscore. Limit length.
+        safe = "".join(c if (c.isalnum() or c in "-_") else "_" for c in sid)
+        return safe[:64]
+
     if session_id not in SESSION_LOG_FILES:
         timestamp = datetime.utcnow().strftime("%Y%m%d-%H%M%S")
-        filename = f"pipeline-{timestamp}.json"
+        safe_id = _sanitize_session_id(session_id)
+        filename = f"pipeline-{safe_id}-{timestamp}.json"
         SESSION_LOG_FILES[session_id] = _ensure_log_dir(session_id) / filename
     return SESSION_LOG_FILES[session_id]
 

@@ -305,10 +305,22 @@ export default function App() {
                     <button
                       type="button"
                       onClick={() => toggleSection(section)}
-                      className="flex w-full items-center justify-between gap-3 text-left text-slate-100"
+                      className="group flex w-full items-center justify-between gap-3 rounded-2xl px-3 py-3 text-left text-slate-100 transition-colors hover:bg-slate-900/80 hover:text-slate-50"
                     >
                       <span className="font-medium">{section.toUpperCase()}</span>
-                      <span className="text-slate-400 text-sm">{isOpen ? 'Collapse' : 'Expand'}</span>
+                      <span className="flex items-center justify-center text-slate-400 transition-colors group-hover:text-emerald-300">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                        >
+                          <path d="M6 9l6 6 6-6" />
+                        </svg>
+                      </span>
                     </button>
                     {isOpen && (
                       <div className="mt-4 overflow-auto rounded-xl bg-slate-900 p-4 text-slate-200">

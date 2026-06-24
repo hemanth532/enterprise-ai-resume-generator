@@ -106,14 +106,27 @@ def resume_generation_tool(parsed: Dict[str, Any], profile: Dict[str, Any], ats:
     return {"summary": summary, "experience_bullets": bullets, "skills": skills}
 
 
+def _safe_string(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, list):
+        return " ".join(str(item) for item in value if item is not None)
+    return str(value)
+
+
 def resume_review_tool(resume: Dict[str, Any]) -> Dict[str, Any]:
     issues = []
-    summary = resume.get("summary", "")
+    summary = _safe_string(resume.get("summary", ""))
     if len(summary.split()) < 10:
         issues.append("Summary is short; consider expanding with concrete achievements.")
     if "  " in summary:
         issues.append("Double spaces found in summary.")
-    if len(resume.get("experience_bullets", [])) < 3:
+    experience_bullets = resume.get("experience_bullets", [])
+    if experience_bullets is None:
+        experience_bullets = []
+    elif not isinstance(experience_bullets, list):
+        experience_bullets = [experience_bullets]
+    if len(experience_bullets) < 3:
         issues.append("Fewer than 3 experience bullets; add more quantifiable achievements.")
     return {"issues": issues, "passed": len(issues) == 0}
 
