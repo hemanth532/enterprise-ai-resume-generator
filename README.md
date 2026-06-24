@@ -2,6 +2,8 @@
 
 A full-stack enterprise resume generation project with a React + TypeScript frontend and a FastAPI backend.
 
+![alt text](image.png)
+
 ## Project Structure
 
 - `frontend/` — React application for file upload, live WebSocket progress, result viewing, and downloads
