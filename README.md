@@ -82,7 +82,3 @@ The frontend communicates with the backend via:
 - `.doc` file support relies on `pypandoc` plus a system-installed `pandoc` binary.
 - `.pdf` parsing is handled by `PyPDF2`.
 - If using local Ollama, ensure the model is installed and available.
-
-## Cleanup
-
-This repository uses a single root-level README. Subfolder READMEs are not required and have been removed.
